@@ -1,0 +1,65 @@
+function start_youtube {
+
+# downloading youtube video
+cd /home/pi/media/youtube ; youtube-dl --restrict-filenames @option.YouTube_Video_Link_Download@
+
+# removing old service file
+[ -e /etc/systemd/system/youtube.service ] && sudo rm /etc/systemd/system/youtube.service
+
+# creating new service file
+echo '[Unit]' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
+echo 'Description=Digital Signage YouTube' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
+echo 'After=network.target' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
+
+echo '[Service]' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
+echo 'ExecStart=/bin/bash -c "while true ; do for youtube in $(ls /home/pi/media/youtube//* | shuf); do omxplayer --no-keys --no-osd $youtube; done; done"' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
+echo 'Restart=always' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
+
+echo '[Install]' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
+echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
+
+# reloading systemctl
+sudo systemctl daemon-reload
+
+# clearing framebuffer
+dd if=/dev/zero of=/dev/fb0 status=none > /dev/null 2>&1 &
+
+# starting youtube service
+sudo systemctl start youtube.service
+
+# enabling youtube service
+sudo systemctl enable youtube.service > /dev/null 2>&1
+}
+
+function stop_youtube {
+
+# stopping youtube service
+sudo systemctl stop youtube.service
+
+# clearing framebuffer
+dd if=/dev/zero of=/dev/fb0 status=none > /dev/null 2>&1 &
+
+# showing logo
+fim -q /home/pi/media/logo/bbx.png > /dev/null 2>&1 &
+
+# removing existing youtube video
+rm -rf /home/pi/media/youtube/*
+
+# disabling youtube service
+sudo systemctl disable youtube.service > /dev/null 2>&1
+
+# deleting youtube service
+[ -e /etc/systemd/system/youtube.service ] && sudo rm /etc/systemd/system/youtube.service    
+}
+
+if [ $(systemctl show -p SubState youtube) = SubState=running ]
+then
+echo youtube is running
+echo restarting youtube
+ stop_youtube
+ start_youtube
+else
+echo youtube is not running
+echo starting youtube
+ start_youtube
+fi

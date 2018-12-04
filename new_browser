@@ -1,0 +1,31 @@
+start_service ()
+{
+ echo '[Unit]' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
+ echo 'Description=digital signage browser' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
+ echo 'After=network.target' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
+ echo '[Service]' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
+ echo 'ExecStart=/bin/bash -c "export DISPLAY=:0.0 ; sudo xinit /usr/bin/chromium-browser @option.Website_Address@ -no-sandbox --window-size=1920,1080 --start-fullscreen --kiosk --incognito --noerrdialogs --disable-translate --no-first-run --fast --fast-start --disable-infobars --disk-cache-dir=/dev/null"' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
+ echo 'Restart=always' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
+ echo '[Install]' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
+ echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
+ sudo systemctl daemon-reload
+ sudo systemctl start browser.service
+}
+
+stop_service ()
+{
+ sudo systemctl stop browser.service
+ dd if=/dev/zero of=/dev/fb0 status=none > /dev/null 2>&1 &
+ fim -q /home/pi/media/logo/bbx.png > /dev/null 2>&1 &
+ sudo systemctl disable browser.service > /dev/null 2>&1
+ [ -e /etc/systemd/system/browser.service ] && sudo rm /etc/systemd/system/browser.service
+}
+
+if [ $(systemctl show -p SubState browser) = SubState=running ]
+ then
+  echo restart browser
+  stop_service ; start_service
+ else
+  echo start browser
+  start_service
+fi

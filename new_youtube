@@ -5,24 +5,24 @@ cd /home/pi/media/youtube ; youtube-dl --restrict-filenames @option.YouTube_Vide
 
 start_service ()
 {
- echo '[Unit]' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
- echo 'Description=digital signage $1' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
- echo 'After=network.target' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
- echo '[Service]' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
- echo 'ExecStart=/bin/bash -c "while true ; do for $1 in $(ls /home/pi/media/$1/* | shuf); do omxplayer --no-keys --no-osd $$1; done; done"' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
- echo 'Restart=always' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
- echo '[Install]' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
- echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
+ echo '[Unit]' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
+ echo 'Description=digital signage youtube' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
+ echo 'After=network.target' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
+ echo '[Service]' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
+ echo 'ExecStart=/bin/bash -c "while true ; do for youtube in $(ls /home/pi/media/youtube/* | shuf); do omxplayer --no-keys --no-osd $youtube; done; done"' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
+ echo 'Restart=always' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
+ echo '[Install]' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
+ echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
  sudo systemctl daemon-reload
  dd if=/dev/zero of=/dev/fb0 status=none > /dev/null 2>&1 &
- sudo systemctl start $1.service
+ sudo systemctl start youtube.service
 }
 
 if [ $(systemctl show -p SubState youtube) = SubState=running ]
  then
   echo update and restart youtube
-  update_media ; sudo systemctl restart youtube.service
+  rm -rf /home/pi/media/youtube/* ; update_media ; sudo systemctl restart youtube.service
  else
   echo update and start youtube
-  update_media ; start_service youtube
+  rm -rf /home/pi/media/youtube/* ; update_media ; start_service youtube
 fi

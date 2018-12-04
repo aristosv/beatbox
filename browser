@@ -5,7 +5,7 @@ remoteaudiomedia="/media/audio/"
 localaudiomedia="/home/pi/media/audio"
 ftpuser="signage@bbxmd.com"
 ftphost="signage-ftp.bbxmd.com"
-ftppass="221K09H2653M42g1!V8R0N51H_3if50JXyDGYO9IEI7SETX"
+ftppass="passhere"
 ftpsettings="set ftp:ssl-allow no ; set net:reconnect-interval-base 5 ; set net:max-retries 2"
 
 # updating audio media

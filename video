@@ -1,0 +1,39 @@
+echo loading variables
+remotevideomedia="/media/video/"
+localvideomedia="/home/pi/media/video"
+ftpuser="signage@bbxmd.com"
+ftphost="signage-ftp.bbxmd.com"
+ftppass="passhere"
+ftpsettings="set ftp:ssl-allow no ; set net:reconnect-interval-base 5 ; set net:max-retries 2"
+
+echo updating video media
+lftp ftp://$ftpuser:$ftppass@$ftphost -e "$ftpsettings ; mirror -v -e $remotevideomedia $localvideomedia ; quit"
+
+echo removing old service file
+[ -e /etc/systemd/system/video.service ] && sudo rm /etc/systemd/system/video.service
+
+echo creating new service file
+# -------------------------
+echo '[Unit]' | sudo tee -a /etc/systemd/system/video.service > /dev/null
+echo 'Description=Digital Signage Video' | sudo tee -a /etc/systemd/system/video.service > /dev/null
+echo 'After=network.target' | sudo tee -a /etc/systemd/system/video.service > /dev/null
+
+echo '[Service]' | sudo tee -a /etc/systemd/system/video.service > /dev/null
+echo 'ExecStart=/bin/bash -c "while true ; do for video in $(ls /home/pi/media/video/* | shuf); do omxplayer --no-keys --no-osd $video; done; done"' | sudo tee -a /etc/systemd/system/video.service > /dev/null
+echo 'Restart=always' | sudo tee -a /etc/systemd/system/video.service > /dev/null
+
+echo '[Install]' | sudo tee -a /etc/systemd/system/video.service > /dev/null
+echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/video.service > /dev/null
+# -------------------------
+
+echo reloading systemctl
+sudo systemctl daemon-reload
+
+echo clearing framebuffer
+dd if=/dev/zero of=/dev/fb0 status=none > /dev/null 2>&1 &
+
+echo starting video service
+sudo systemctl start video.service
+
+echo enabling video service
+sudo systemctl enable video.service > /dev/null 2>&1

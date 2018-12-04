@@ -21,8 +21,8 @@ start_service ()
 if [ $(systemctl show -p SubState youtube) = SubState=running ]
  then
   echo update and restart youtube
-  update_media youtube ; sudo systemctl restart youtube.service
+  update_media ; sudo systemctl restart youtube.service
  else
   echo update and start youtube
-  update_media youtube ; start_service youtube
+  update_media ; start_service youtube
 fi

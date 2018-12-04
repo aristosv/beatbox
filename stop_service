@@ -1,0 +1,8 @@
+stop_service ()
+{
+ sudo systemctl stop $1.service
+ dd if=/dev/zero of=/dev/fb0 status=none > /dev/null 2>&1 &
+ fim -q /home/pi/media/logo/bbx.png > /dev/null 2>&1 &
+ sudo systemctl disable $1.service > /dev/null 2>&1
+ [ -e /etc/systemd/system/$1.service ] && sudo rm /etc/systemd/system/$1.service
+}

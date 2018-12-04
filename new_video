@@ -24,11 +24,11 @@ start_service ()
  sudo systemctl start $1.service
 }
 
-if [ $(systemctl show -p SubState $1) = SubState=running ]
+if [ $(systemctl show -p SubState video) = SubState=running ]
  then
-  echo update and restart $1
-  update_media $1 ; sudo systemctl restart $1.service
+  echo update and restart video
+  update_media video ; sudo systemctl restart video.service
  else
-  echo update and start $1
-  update_media $1 ; start_service $1
+  echo update and start video
+  update_media video ; start_service video
 fi

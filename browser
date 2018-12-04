@@ -1,73 +1,59 @@
-function start_audio {
-
-# loading variables
-remoteaudiomedia="/media/audio/"
-localaudiomedia="/home/pi/media/audio"
-ftpuser="signage@bbxmd.com"
-ftphost="signage-ftp.bbxmd.com"
-ftppass="passhere"
-ftpsettings="set ftp:ssl-allow no ; set net:reconnect-interval-base 5 ; set net:max-retries 2"
-
-# updating audio media
-lftp ftp://$ftpuser:$ftppass@$ftphost -e "$ftpsettings ; mirror -v -e $remoteaudiomedia $localaudiomedia ; quit"
+function start_browser {
 
 # removing old service file
-[ -e /etc/systemd/system/audio.service ] && sudo rm /etc/systemd/system/audio.service
+[ -e /etc/systemd/system/browser.service ] && sudo rm /etc/systemd/system/browser.service
 
 # creating new service file
-echo '[Unit]' | sudo tee -a /etc/systemd/system/audio.service > /dev/null
-echo 'Description=Digital Signage Audio' | sudo tee -a /etc/systemd/system/audio.service > /dev/null
-echo 'After=network.target' | sudo tee -a /etc/systemd/system/audio.service > /dev/null
+echo '[Unit]' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
+echo 'Description=Digital Signage Browser' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
+echo 'After=network.target' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
 
-echo '[Service]' | sudo tee -a /etc/systemd/system/audio.service > /dev/null
-echo 'ExecStart=/bin/bash -c "while true ; do for audio in $(ls /home/pi/media/audio/* | shuf); do omxplayer --no-keys --no-osd $audio; done; done"' | sudo tee -a /etc/systemd/system/audio.service > /dev/null
-echo 'Restart=always' | sudo tee -a /etc/systemd/system/audio.service > /dev/null
+echo '[Service]' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
+echo 'ExecStart=/bin/bash -c "export DISPLAY=:0.0 ; sudo xinit /usr/bin/chromium-browser @option.Website_Address@ -no-sandbox --window-size=1920,1080 --start-fullscreen --kiosk --incognito --noerrdialogs --disable-translate --no-first-run --fast --fast-start --disable-infobars --disk-cache-dir=/dev/null"' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
+echo 'Restart=always' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
 
-echo '[Install]' | sudo tee -a /etc/systemd/system/audio.service > /dev/null
-echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/audio.service > /dev/null
+echo '[Install]' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
+echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
 
 # reloading systemctl
 sudo systemctl daemon-reload
 
-# starting audio service
-sudo systemctl start audio.service
+# clearing framebuffer
+dd if=/dev/zero of=/dev/fb0 status=none > /dev/null 2>&1 &
 
-# enabling audio service
-sudo systemctl enable audio.service > /dev/null 2>&1
+# starting browser service
+sudo systemctl start browser.service
+
+# enabling browser service
+sudo systemctl enable browser.service > /dev/null 2>&1
+}
+
+function stop_browser {
+
+# stopping browser service
+sudo systemctl stop browser.service
 
 # clearing framebuffer
 dd if=/dev/zero of=/dev/fb0 status=none > /dev/null 2>&1 &
 
 # showing logo
 fim -q /home/pi/media/logo/bbx.png > /dev/null 2>&1 &
+
+# disabling browser service
+sudo systemctl disable browser.service > /dev/null 2>&1
+
+# deleting browser service
+[ -e /etc/systemd/system/browser.service ] && sudo rm /etc/systemd/system/browser.service    
 }
 
-function stop_audio {
-
-# stopping audio service
-sudo systemctl stop audio.service
-
-# clearing framebuffer
-dd if=/dev/zero of=/dev/fb0 status=none > /dev/null 2>&1 &
-
-# showing logo
-fim -q /home/pi/media/logo/bbx.png > /dev/null 2>&1 &
-
-# disabling audio service
-sudo systemctl disable audio.service > /dev/null 2>&1
-
-# deleting audio service
-[ -e /etc/systemd/system/audio.service ] && sudo rm /etc/systemd/system/audio.service    
-}
-
-if [ $(systemctl show -p SubState audio) = SubState=running ]
+if [ $(systemctl show -p SubState browser) = SubState=running ]
 then
-echo audio is running
-echo restarting audio
- stop_audio
- start_audio
+echo browser is running
+echo restarting browser
+ stop_browser
+ start_browser
 else
-echo audio is not running
-echo starting audio
- start_audio
+echo browser is not running
+echo starting browser
+ start_browser
 fi

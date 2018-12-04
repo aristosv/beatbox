@@ -1,0 +1,34 @@
+update_media ()
+{
+ ftppass=""
+ remotemedia="/media/$1"
+ ftpuser="signage@bbxmd.com"
+ ftphost="signage-ftp.bbxmd.com"
+ localmedia="/home/pi/media/$1"
+ ftpsettings="set ftp:ssl-allow no ; set net:reconnect-interval-base 5 ; set net:max-retries 2"
+ lftp ftp://$ftpuser:$ftppass@$ftphost -e "$ftpsettings ; mirror -v -e $remotemedia $localmedia ; quit"
+}
+
+start_service ()
+{
+ echo '[Unit]' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
+ echo 'Description=digital signage $1' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
+ echo 'After=network.target' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
+ echo '[Service]' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
+ echo "ExecStart=/usr/bin/fim -a -u -q -R /home/pi/media/images -c 'while(1){display;sleep \"4\";next;}'" | sudo tee -a /etc/systemd/system/images.service > /dev/null
+ echo 'Restart=always' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
+ echo '[Install]' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
+ echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
+ sudo systemctl daemon-reload
+ dd if=/dev/zero of=/dev/fb0 status=none > /dev/null 2>&1 &
+ sudo systemctl start $1.service
+}
+
+if [ $(systemctl show -p SubState $1) = SubState=running ]
+ then
+  echo update and restart $1
+  update_media $1 ; sudo systemctl restart $1.service
+ else
+  echo update and start $1
+  update_media $1 ; start_service $1
+fi

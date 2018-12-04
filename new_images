@@ -24,11 +24,11 @@ start_service ()
  sudo systemctl start $1.service
 }
 
-if [ $(systemctl show -p SubState $1) = SubState=running ]
+if [ $(systemctl show -p SubState images) = SubState=running ]
  then
-  echo update and restart $1
-  update_media $1 ; sudo systemctl restart $1.service
+  echo update and restart images
+  update_media images ; sudo systemctl restart images.service
  else
-  echo update and start $1
-  update_media $1 ; start_service $1
+  echo update and start images
+  update_media images ; start_service images
 fi

@@ -1,0 +1,39 @@
+echo loading variables
+remoteimagesmedia="/media/images/"
+localimagesmedia="/home/pi/media/images"
+ftpuser="signage@bbxmd.com"
+ftphost="signage-ftp.bbxmd.com"
+ftppass="passhere"
+ftpsettings="set ftp:ssl-allow no ; set net:reconnect-interval-base 5 ; set net:max-retries 2"
+
+echo updating images media
+lftp ftp://$ftpuser:$ftppass@$ftphost -e "$ftpsettings ; mirror -v -e $remoteimagesmedia $localimagesmedia ; quit"
+
+echo removing old service file
+[ -e /etc/systemd/system/images.service ] && sudo rm /etc/systemd/system/images.service
+
+echo creating new service file
+# -------------------------
+echo '[Unit]' | sudo tee -a /etc/systemd/system/images.service > /dev/null
+echo 'Description=Digital Signage Images' | sudo tee -a /etc/systemd/system/images.service > /dev/null
+echo 'After=network.target' | sudo tee -a /etc/systemd/system/images.service > /dev/null
+
+echo '[Service]' | sudo tee -a /etc/systemd/system/images.service > /dev/null
+echo "ExecStart=/usr/bin/fim -a -u -q -R /home/pi/media/images -c 'while(1){display;sleep \"4\";next;}'" | sudo tee -a /etc/systemd/system/images.service > /dev/null
+echo 'Restart=always' | sudo tee -a /etc/systemd/system/images.service > /dev/null
+
+echo '[Install]' | sudo tee -a /etc/systemd/system/images.service > /dev/null
+echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/images.service > /dev/null
+# -------------------------
+
+echo reloading systemctl
+sudo systemctl daemon-reload
+
+echo clearing framebuffer
+dd if=/dev/zero of=/dev/fb0 status=none > /dev/null 2>&1 &
+
+echo starting images service
+sudo systemctl start images.service
+
+echo enabling images service
+sudo systemctl enable images.service > /dev/null 2>&1

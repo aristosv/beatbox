@@ -1,32 +1,32 @@
 start_service ()
 {
- echo '[Unit]' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
- echo 'Description=digital signage $1' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
- echo 'After=network.target' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
- echo '[Service]' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
+ echo '[Unit]' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
+ echo 'Description=digital signage stream' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
+ echo 'After=network.target' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
+ echo '[Service]' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
  echo 'ExecStart=/bin/bash -c "omxplayer --no-keys --no-osd --loop $(youtube-dl -g -f best @option.YouTube_Video_Link_Stream@)"' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
- echo 'Restart=always' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
- echo '[Install]' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
- echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
+ echo 'Restart=always' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
+ echo '[Install]' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
+ echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
  sudo systemctl daemon-reload
  dd if=/dev/zero of=/dev/fb0 status=none > /dev/null 2>&1 &
- sudo systemctl start $1.service
+ sudo systemctl start stream.service
 }
 
 stop_service ()
 {
- sudo systemctl stop $1.service
+ sudo systemctl stop stream.service
  dd if=/dev/zero of=/dev/fb0 status=none > /dev/null 2>&1 &
  fim -q /home/pi/media/logo/bbx.png > /dev/null 2>&1 &
- sudo systemctl disable $1.service > /dev/null 2>&1
- [ -e /etc/systemd/system/$1.service ] && sudo rm /etc/systemd/system/$1.service
+ sudo systemctl disable stream.service > /dev/null 2>&1
+ [ -e /etc/systemd/system/stream.service ] && sudo rm /etc/systemd/system/stream.service
 }
 
 if [ $(systemctl show -p SubState stream) = SubState=running ]
  then
   echo restart stream
-  stop_service stream ; start_service stream
+  stop_service ; start_service
  else
   echo start stream
-  start_service stream
+  start_service
 fi

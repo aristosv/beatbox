@@ -1,33 +1,33 @@
 update_media ()
 {
- ftppass=""
- remotemedia="/media/$1"
+ remotemedia="/media/audio"
  ftpuser="signage@bbxmd.com"
  ftphost="signage-ftp.bbxmd.com"
- localmedia="/home/pi/media/$1"
+ localmedia="/home/pi/media/audio"
+ ftppass=""
  ftpsettings="set ftp:ssl-allow no ; set net:reconnect-interval-base 5 ; set net:max-retries 2"
  lftp ftp://$ftpuser:$ftppass@$ftphost -e "$ftpsettings ; mirror -v -e $remotemedia $localmedia ; quit"
 }
 
 start_service ()
 {
- echo '[Unit]' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
- echo 'Description=digital signage $1' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
- echo 'After=network.target' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
- echo '[Service]' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
- echo 'ExecStart=/bin/bash -c "while true ; do for $1 in $(ls /home/pi/media/$1/* | shuf); do omxplayer --no-keys --no-osd $$1; done; done"' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
- echo 'Restart=always' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
- echo '[Install]' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
- echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/$1.service > /dev/null
+ echo '[Unit]' | sudo tee -a /etc/systemd/system/audio.service > /dev/null
+ echo 'Description=digital signage audio' | sudo tee -a /etc/systemd/system/audio.service > /dev/null
+ echo 'After=network.target' | sudo tee -a /etc/systemd/system/audio.service > /dev/null
+ echo '[Service]' | sudo tee -a /etc/systemd/system/audio.service > /dev/null
+ echo 'ExecStart=/bin/bash -c "while true ; do for audio in $(ls /home/pi/media/audio/* | shuf); do omxplayer --no-keys --no-osd $audio; done; done"' | sudo tee -a /etc/systemd/system/audio.service > /dev/null
+ echo 'Restart=always' | sudo tee -a /etc/systemd/system/audio.service > /dev/null
+ echo '[Install]' | sudo tee -a /etc/systemd/system/audio.service > /dev/null
+ echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/audio.service > /dev/null
  sudo systemctl daemon-reload
- sudo systemctl start $1.service
+ sudo systemctl start audio.service
 }
 
 if [ $(systemctl show -p SubState audio) = SubState=running ]
  then
   echo update and restart audio
-  update_media audio ; sudo systemctl restart audio.service
+  update_media ; sudo systemctl restart audio.service
  else
   echo update and start audio
-  update_media audio ; start_service audio
+  update_media ; start_service
 fi

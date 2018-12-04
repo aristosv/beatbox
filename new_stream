@@ -22,11 +22,11 @@ stop_service ()
  [ -e /etc/systemd/system/$1.service ] && sudo rm /etc/systemd/system/$1.service
 }
 
-if [ $(systemctl show -p SubState $1) = SubState=running ]
+if [ $(systemctl show -p SubState stream) = SubState=running ]
  then
-  echo restart $1
-  stop_service $1 ; start_service $1
+  echo restart stream
+  stop_service stream ; start_service stream
  else
-  echo start $1
-  start_service $1
+  echo start stream
+  start_service stream
 fi

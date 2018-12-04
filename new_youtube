@@ -18,11 +18,11 @@ start_service ()
  sudo systemctl start $1.service
 }
 
-if [ $(systemctl show -p SubState $1) = SubState=running ]
+if [ $(systemctl show -p SubState youtube) = SubState=running ]
  then
-  echo update and restart $1
-  update_media $1 ; sudo systemctl restart $1.service
+  echo update and restart youtube
+  update_media youtube ; sudo systemctl restart youtube.service
  else
-  echo update and start $1
-  update_media $1 ; start_service $1
+  echo update and start youtube
+  update_media youtube ; start_service youtube
 fi

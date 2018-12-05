@@ -1,3 +1,13 @@
+stop_service ()
+{
+ sudo systemctl is-active --quiet audio.service && sudo systemctl stop audio.service && sudo rm /etc/systemd/system/audio.service && echo stop audio
+ sudo systemctl is-active --quiet video.service && sudo systemctl stop video.service && sudo rm /etc/systemd/system/video.service && echo stop video
+ sudo systemctl is-active --quiet images.service && sudo systemctl stop images.service && sudo rm /etc/systemd/system/images.service && echo stop images
+ sudo systemctl is-active --quiet stream.service && sudo systemctl stop stream.service && sudo rm /etc/systemd/system/stream.service && echo stop stream
+ sudo systemctl is-active --quiet youtube.service && sudo systemctl stop youtube.service && sudo rm /etc/systemd/system/youtube.service && echo stop youtube
+ sudo systemctl is-active --quiet browser.service && sudo systemctl stop browser.service && sudo rm /etc/systemd/system/browser.service && echo stop browser
+}
+
 start_service ()
 {
  echo '[Unit]' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
@@ -10,16 +20,6 @@ start_service ()
  echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
  sudo systemctl daemon-reload
  sudo systemctl start stream.service
-}
-
-stop_service ()
-{
- sudo systemctl is-active --quiet audio.service && sudo systemctl stop audio.service && sudo rm /etc/systemd/system/audio.service && echo stop audio
- sudo systemctl is-active --quiet video.service && sudo systemctl stop video.service && sudo rm /etc/systemd/system/video.service && echo stop video
- sudo systemctl is-active --quiet images.service && sudo systemctl stop images.service && sudo rm /etc/systemd/system/images.service && echo stop images
- sudo systemctl is-active --quiet stream.service && sudo systemctl stop stream.service && sudo rm /etc/systemd/system/stream.service && echo stop stream
- sudo systemctl is-active --quiet youtube.service && sudo systemctl stop youtube.service && sudo rm /etc/systemd/system/youtube.service && echo stop youtube
- sudo systemctl is-active --quiet browser.service && sudo systemctl stop browser.service && sudo rm /etc/systemd/system/browser.service && echo stop browser
 }
 
 stop_service

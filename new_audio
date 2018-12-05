@@ -11,12 +11,12 @@ update_media ()
 
 stop_service ()
 {
- sudo systemctl is-active --quiet audio.service && sudo systemctl stop audio.service && sudo rm /etc/systemd/system/audio.service && echo audio service stopped
- sudo systemctl is-active --quiet video.service && sudo systemctl stop video.service && sudo rm /etc/systemd/system/video.service && echo video service stopped
- sudo systemctl is-active --quiet images.service && sudo systemctl stop images.service && sudo rm /etc/systemd/system/images.service && echo images service stopped
- sudo systemctl is-active --quiet stream.service && sudo systemctl stop stream.service && sudo rm /etc/systemd/system/stream.service && echo stream service stopped
- sudo systemctl is-active --quiet youtube.service && sudo systemctl stop youtube.service && sudo rm /etc/systemd/system/youtube.service && echo youtube service stopped
- sudo systemctl is-active --quiet browser.service && sudo systemctl stop browser.service && sudo rm /etc/systemd/system/browser.service && echo browser service stopped
+ sudo systemctl is-active --quiet audio.service && sudo systemctl stop audio.service && sudo rm /etc/systemd/system/audio.service && echo stopped audio
+ sudo systemctl is-active --quiet video.service && sudo systemctl stop video.service && sudo rm /etc/systemd/system/video.service && echo stopped video
+ sudo systemctl is-active --quiet images.service && sudo systemctl stop images.service && sudo rm /etc/systemd/system/images.service && echo stopped images
+ sudo systemctl is-active --quiet stream.service && sudo systemctl stop stream.service && sudo rm /etc/systemd/system/stream.service && echo stopped stream
+ sudo systemctl is-active --quiet youtube.service && sudo systemctl stop youtube.service && sudo rm /etc/systemd/system/youtube.service && echo stopped youtube
+ sudo systemctl is-active --quiet browser.service && sudo systemctl stop browser.service && sudo rm /etc/systemd/system/browser.service && echo stopped browser
 }
 
 start_service ()

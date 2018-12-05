@@ -33,4 +33,6 @@ start_service ()
  sudo systemctl start audio.service
 }
 
-update_media ; stop_service ; start_service
+echo update audio ; update_media
+stop_service
+echo start audio ; start_service

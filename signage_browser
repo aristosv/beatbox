@@ -17,6 +17,7 @@ start_service ()
  echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
  sudo systemctl daemon-reload
  sudo systemctl start browser.service
+ sudo systemctl enable browser.service
 }
 
 stop_service

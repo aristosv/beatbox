@@ -1,10 +1,10 @@
-echo updating system
+echo update system
 sudo apt-get update ; sudo apt-get -y upgrade ; sudo apt-get -y dist-upgrade ; sudo apt-get clean > /dev/null 2>&1
 
-echo installing dependencies
+echo install dependencies
 sudo apt-get install -y xinit fim lftp chromium-browser omxplayer python-pip ; sudo pip install youtube-dl > /dev/null 2>&1
 
-echo creating folders
+echo create folders
 mkdir -p ~/media/{audio,video,images,youtube}
 
 echo hide raspberry pi icons

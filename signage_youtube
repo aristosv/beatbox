@@ -22,6 +22,7 @@ start_service ()
  echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
  sudo systemctl daemon-reload
  sudo systemctl start youtube.service
+ sudo systemctl enable youtube.service
 }
 
 rm -rf /home/pi/media/youtube/*

@@ -1,19 +1,29 @@
 update_media () 
 {
- ftpuser=""
- ftphost=""
- ftppass=""
- localmedia=""
- remotemedia=""
+ remotemedia="/media/audio"
+ ftpuser="signage@bbxmd.com"
+ ftphost="signage-ftp.bbxmd.com"
+ localmedia="/home/pi/media/audio"
+ ftppass="221K09H2653M42g1!V8R0N51H_3if50JXyDGYO9IEI7SETX"
  ftpsettings="set ftp:ssl-allow no ; set net:reconnect-interval-base 5 ; set net:max-retries 2"
  lftp ftp://$ftpuser:$ftppass@$ftphost -e "$ftpsettings ; mirror -v -e $remotemedia $localmedia ; quit"
 }
 
 stop_service ()
 {
- for service in audio video images stream youtube browser; do
-  sudo systemctl is-active --quiet $service.service && sudo systemctl stop $service.service && sudo rm /etc/systemd/system/$service.service && echo stop $service
+ for service in audio video images stream youtube browser logo
+ do
+  sudo systemctl is-active --quiet $service.service &&
+  sudo systemctl stop $service.service &&
+  sudo systemctl disable $service.service  > /dev/null 2>&1 &&
+  sudo rm /etc/systemd/system/$service.service &&
+  echo stop $service
  done
+}
+
+clear_framebuffer ()
+{
+ dd if=/dev/zero of=/dev/fb0 status=none > /dev/null 2>&1 &
 }
 
 start_service ()
@@ -28,9 +38,25 @@ start_service ()
  echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/audio.service > /dev/null
  sudo systemctl daemon-reload
  sudo systemctl start audio.service
- sudo systemctl enable audio.service
+ sudo systemctl enable audio.service > /dev/null 2>&1
+}
+
+start_logo ()
+{
+ echo '[Unit]' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
+ echo 'Description=digital signage logo' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
+ echo 'After=network.target' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
+ echo '[Service]' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
+ echo 'ExecStart=/usr/bin/fim -q /home/pi/media/logo/bbx.png > /dev/null 2>&1 &' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
+ echo 'Restart=always' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
+ echo '[Install]' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
+ echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
+ sudo systemctl daemon-reload
+ sudo systemctl start logo.service
+ sudo systemctl enable logo.service > /dev/null 2>&1
 }
 
 echo update audio ; update_media
-stop_service
+stop_service ; clear_framebuffer
 echo start audio ; start_service
+start_logo

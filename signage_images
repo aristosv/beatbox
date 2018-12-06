@@ -1,10 +1,10 @@
-update_media ()
+update_media () 
 {
- remotemedia="/media/images"
- ftpuser="signage@bbxmd.com"
- ftphost="signage-ftp.bbxmd.com"
- localmedia="/home/pi/media/images"
+ ftpuser=""
+ ftphost=""
  ftppass=""
+ localmedia=""
+ remotemedia=""
  ftpsettings="set ftp:ssl-allow no ; set net:reconnect-interval-base 5 ; set net:max-retries 2"
  lftp ftp://$ftpuser:$ftppass@$ftphost -e "$ftpsettings ; mirror -v -e $remotemedia $localmedia ; quit"
 }

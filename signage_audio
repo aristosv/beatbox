@@ -28,6 +28,7 @@ start_service ()
  echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/audio.service > /dev/null
  sudo systemctl daemon-reload
  sudo systemctl start audio.service
+ sudo systemctl enable audio.service
 }
 
 echo update audio ; update_media

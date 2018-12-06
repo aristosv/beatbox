@@ -28,6 +28,7 @@ start_service ()
  echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/video.service > /dev/null
  sudo systemctl daemon-reload
  sudo systemctl start video.service
+ sudo systemctl enable video.service
 }
 
 echo update video ; update_media

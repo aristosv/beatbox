@@ -13,4 +13,4 @@ start_logo ()
  sudo systemctl enable logo.service
 }
 
-start_logo
+echo start logo ; start_logo

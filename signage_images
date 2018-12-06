@@ -28,6 +28,7 @@ start_service ()
  echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/images.service > /dev/null
  sudo systemctl daemon-reload
  sudo systemctl start images.service
+ sudo systemctl enable images.service
 }
 
 echo update images ; update_media

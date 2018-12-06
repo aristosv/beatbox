@@ -1,3 +1,11 @@
+stop_logo ()
+{
+ sudo systemctl is-active --quiet logo.service
+ sudo systemctl stop logo.service
+ sudo systemctl disable logo.service > /dev/null 2>&1
+ sudo rm /etc/systemd/system/logo.service
+}
+
 start_logo ()
 {
  echo '[Unit]' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
@@ -10,7 +18,8 @@ start_logo ()
  echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
  sudo systemctl daemon-reload
  sudo systemctl start logo.service
- sudo systemctl enable logo.service
+ sudo systemctl enable logo.service > /dev/null 2>&1
 }
 
+stop_logo
 echo start logo ; start_logo

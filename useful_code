@@ -1,2 +1,5 @@
-dd if=/dev/zero of=/dev/fb0 status=none > /dev/null 2>&1 &
-fim -q /home/pi/media/logo/bbx.png > /dev/null 2>&1 &
+signage_logo ()
+{
+ dd if=/dev/zero of=/dev/fb0 status=none > /dev/null 2>&1 &
+ fim -q /home/pi/media/logo/bbx.png > /dev/null 2>&1 &
+}

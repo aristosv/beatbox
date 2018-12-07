@@ -61,9 +61,6 @@ sudo sed -i '1 i\avoid_warnings=1' /boot/config.txt
 echo hide cusrsor
 sudo sed -i 's/-nolisten/-nocursor -nolisten/g' /etc/X11/xinit/xserverrc
 
-echo expand filesystem
-sudo sed -i "1 s|$| quiet init=/usr/lib/raspi-config/init_resize.sh|" /boot/cmdline.txt
-
 echo hushlogin
 touch /home/pi/.hushlogin
 

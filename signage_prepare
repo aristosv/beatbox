@@ -64,4 +64,7 @@ sudo sed -i 's/-nolisten/-nocursor -nolisten/g' /etc/X11/xinit/xserverrc
 echo expand filesystem
 sudo sed -i "1 s|$| quiet init=/usr/lib/raspi-config/init_resize.sh|" /boot/cmdline.txt
 
+echo hushlogin
+touch /home/pi/.hushlogin
+
 echo done

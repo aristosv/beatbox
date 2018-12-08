@@ -4,11 +4,8 @@ sudo apt-get update > /dev/null 2>&1
 echo upgrade
 sudo apt-get -y upgrade > /dev/null 2>&1
 
-echo dist-upgrade
+echo dist upgrade
 sudo apt-get -y dist-upgrade > /dev/null 2>&1
-
-echo clean
-sudo apt-get clean > /dev/null 2>&1
 
 echo install xinit
 sudo apt-get install -y xinit > /dev/null 2>&1
@@ -61,7 +58,5 @@ sudo sed -i '1 i\avoid_warnings=1' /boot/config.txt
 echo hide cusrsor
 sudo sed -i 's/-nolisten/-nocursor -nolisten/g' /etc/X11/xinit/xserverrc
 
-echo hushlogin
+echo hush login
 touch /home/pi/.hushlogin
-
-echo done

@@ -60,3 +60,31 @@ sudo sed -i 's/-nolisten/-nocursor -nolisten/g' /etc/X11/xinit/xserverrc
 
 echo hush login
 touch /home/pi/.hushlogin
+
+start_logo ()
+{
+ echo '[Unit]' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
+ echo 'Description=digital signage logo' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
+ echo 'After=network.target' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
+ echo '[Service]' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
+ echo 'ExecStart=/usr/bin/fim -q /home/pi/media/logo/bbx.png > /dev/null 2>&1 &' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
+ echo 'Restart=always' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
+ echo '[Install]' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
+ echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
+ sudo systemctl daemon-reload
+ sudo systemctl start logo.service
+ sudo systemctl enable logo.service > /dev/null 2>&1
+}
+
+expand_filesystem ()
+{
+ sudo sed -i '$i/home/pi/startup' /etc/rc.local
+ echo 'sudo raspi-config --expand-rootfs' | sudo tee -a /home/pi/startup > /dev/null
+ echo 'sudo sed -i '/startup/d' /etc/rc.local' | sudo tee -a /home/pi/startup > /dev/null
+ echo 'rm /home/pi/startup' | sudo tee -a /home/pi/startup > /dev/null
+ echo 'sudo reboot' | sudo tee -a /home/pi/startup > /dev/null
+ sudo chmod +x /home/pi/startup
+}
+
+echo start logo ; start_logo
+echo expand filesystem ; expand_filesystem

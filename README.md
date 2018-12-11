@@ -9,7 +9,7 @@ signage_browser - display a website
 
 signage_images - show image slideshow
 
-signage_prepare - install dependencies
+signage_prepare - prepare the pi
 
 signage_stop - stop signage services
 

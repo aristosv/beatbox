@@ -3,18 +3,18 @@ Using these scripts you can create jobs in rundeck, to utilize a raspberry pi as
 
 There's also a script that prepares the pi, installing all dependencies, and configures it to boot to a blank screen. It also displays a logo, when the screen is not used for showing other media.
 
-signage_audio   - play local audio files
+signage_audio - play local audio files
 
 signage_browser - display a website
 
-signage_images  - show image slideshow
+signage_images - show image slideshow
 
 signage_prepare - install dependencies
 
-signage_stop    - stop signage services
+signage_stop - stop signage services
 
-signage_stream  - stream youtube video
+signage_stream - stream youtube video
 
-signage_video   - play local video files
+signage_video - play local video files
 
 signage_youtube - download youtube video

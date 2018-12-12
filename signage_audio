@@ -1,7 +1,6 @@
 update_media () 
 {
- lftp ftp://"@stub.ftpuser@":"@stub.ftppass@"@"@stub.ftphost@" -e "mirror -v -e "@stub.remotemedia@" "@stub.localmedia@" ; quit"
- #lftp ftp://$ftpuser:$ftppass@$ftphost -e "$ftpsettings ; mirror -v -e $remotemedia $localmedia ; quit"
+ lftp ftp://@stub.ftpuser@:221K09H2653M42g1!V8R0N51H_3if50JXyDGYO9IEI7SETX@signage-ftp.bbxmd.com -e "$ftpsettings ; mirror -v -e @stub.remotemedia@ @stub.localmedia@ ; quit"
 }
 
 stop_service ()

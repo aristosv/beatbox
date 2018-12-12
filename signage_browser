@@ -21,7 +21,7 @@ start_service ()
  echo 'Description=digital signage browser' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
  echo 'After=network.target' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
  echo '[Service]' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
- echo 'ExecStart=/bin/bash -c "export DISPLAY=:0.0 ; sudo startx /usr/bin/chromium-browser $RD_OPTION_WEBSITE_ADDRESS -no-sandbox --window-size=9000,9000 --start-fullscreen --kiosk --incognito --noerrdialogs --disable-translate --no-first-run --fast --fast-start --disable-infobars --disk-cache-dir=/dev/null"' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
+ echo 'ExecStart=/bin/bash -c "export DISPLAY=:0.0 ; sudo startx /usr/bin/chromium-browser $websitelink -no-sandbox --window-size=9000,9000 --start-fullscreen --kiosk --incognito --noerrdialogs --disable-translate --no-first-run --fast --fast-start --disable-infobars --disk-cache-dir=/dev/null"' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
  echo 'Restart=always' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
  echo '[Install]' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
  echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/browser.service > /dev/null

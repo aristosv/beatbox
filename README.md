@@ -5,9 +5,9 @@ There is also a script that prepares the pi, installs all dependencies, and disp
 
 signage_audio - play local audio files
 
-signage_browser - display a website
+signage_browser - show a website
 
-signage_images - show slideshow
+signage_images - play slideshow
 
 signage_prepare - prepare the pi
 
@@ -17,4 +17,4 @@ signage_stream - stream youtube video
 
 signage_video - play local video files
 
-signage_youtube - download youtube video
+signage_youtube - download and play youtube video

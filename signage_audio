@@ -1,11 +1,5 @@
 update_media () 
 {
-export remotemedia="/media/audio"
-export ftpuser="signage@bbxmd.com"
-export ftphost="signage-ftp.bbxmd.com"
-export localmedia="/home/pi/media/audio"
-export ftppass="221K09H2653M42g1!V8R0N51H_3if50JXyDGYO9IEI7SETX"
-export ftpsettings="set ftp:ssl-allow no ; set net:reconnect-interval-base 5 ; set net:max-retries 2"
  lftp ftp://$ftpuser:$ftppass@$ftphost -e "$ftpsettings ; mirror -v -e $remotemedia $localmedia ; quit"
 }
 

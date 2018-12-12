@@ -1,6 +1,6 @@
 update_media () 
 {
- lftp ftp://@stub.ftpuser@:221K09H2653M42g1!V8R0N51H_3if50JXyDGYO9IEI7SETX@signage-ftp.bbxmd.com -e "@stub.ftpsettings@ ; mirror -v -e @stub.remotemedia@ @stub.localmedia@ ; quit"
+ lftp ftp://@stub.ftpuser@:221K09H2653M42g1!V8R0N51H_3if50JXyDGYO9IEI7SETX@signage-ftp.bbxmd.com -e "set ftp:ssl-allow no ; set net:reconnect-interval-base 5 ; set net:max-retries 2 ; mirror -v -e @stub.remotemedia@ @stub.localmedia@ ; quit"
 }
 
 stop_service ()

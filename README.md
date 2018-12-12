@@ -7,7 +7,7 @@ signage_audio - play local audio files
 
 signage_browser - display a website
 
-signage_images - show image slideshow
+signage_images - show slideshow
 
 signage_prepare - prepare the pi
 

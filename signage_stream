@@ -21,7 +21,7 @@ start_service ()
  echo 'Description=digital signage stream' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
  echo 'After=network.target' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
  echo '[Service]' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
- echo 'ExecStart=/bin/bash -c "omxplayer --no-keys --no-osd --loop $(youtube-dl -g -f best $youtubelink)"' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
+ echo 'ExecStart=/bin/bash -c "omxplayer --no-keys --no-osd --loop $(youtube-dl -g -f best @option.YouTube_Video_Link_Stream@)"' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
  echo 'Restart=always' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
  echo '[Install]' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
  echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/stream.service > /dev/null

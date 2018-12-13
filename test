@@ -1,0 +1,3 @@
+echo $RD_OPTION_TEST
+echo ${option.test}
+echo @option.test@

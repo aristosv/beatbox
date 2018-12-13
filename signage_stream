@@ -18,11 +18,12 @@ clear_framebuffer ()
 start_service ()
 {
  export stream=$RD_OPTION_YOUTUBE_VIDEO_LINK_STREAM
+ echo $stream
  echo '[Unit]' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
  echo 'Description=digital signage stream' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
  echo 'After=network.target' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
  echo '[Service]' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
- echo 'ExecStart=/bin/bash -c "omxplayer --no-keys --no-osd --loop $(youtube-dl -g -f best $(echo $stream))"' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
+ echo 'ExecStart=/bin/bash -c "omxplayer --no-keys --no-osd --loop $(youtube-dl -g -f best $stream)"' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
  echo 'Restart=always' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
  echo '[Install]' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
  echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/stream.service > /dev/null

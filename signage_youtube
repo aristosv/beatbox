@@ -1,6 +1,6 @@
 update_media ()
 {
-cd /home/pi/media/youtube ; youtube-dl --restrict-filenames $youtubelink
+cd /home/pi/media/youtube ; youtube-dl --restrict-filenames $RD_OPTION_YOUTUBE_VIDEO_LINK_DOWNLOAD
 }
 
 stop_service ()

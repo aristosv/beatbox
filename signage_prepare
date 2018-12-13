@@ -64,5 +64,8 @@ sudo sed -i '1 i\avoid_warnings=1' /boot/config.txt
 echo hide mouse
 sudo sed -i 's/-nolisten/-nocursor -nolisten/g' /etc/X11/xinit/xserverrc
 
+echo configure sshd
+sudo sed -i -e 's/AcceptEnv LANG LC/AcceptEnv RD/g' /etc/ssh/sshd_config
+
 echo hush login
 touch /home/pi/.hushlogin

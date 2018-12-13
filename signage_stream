@@ -25,7 +25,7 @@ start_service ()
  echo 'Restart=always' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
  echo '[Install]' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
  echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
- sudo sed -i -e 's/streamurl/$RD_OPTION_YOUTUBE_VIDEO_LINK_STREAM/g' /etc/systemd/system/stream.service
+ sudo sed -i -e 's/streamurl/$($RD_OPTION_YOUTUBE_VIDEO_LINK_STREAM)/g' /etc/systemd/system/stream.service
  sudo systemctl daemon-reload
  sudo systemctl start stream.service
  sudo systemctl enable stream.service > /dev/null 2>&1

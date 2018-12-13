@@ -17,7 +17,8 @@ clear_framebuffer ()
 
 start_service ()
 {
- youtubelink=$RD_OPTION_YOUTUBE_VIDEO_LINK_STREAM
+ export youtubelink=$RD_OPTION_YOUTUBE_VIDEO_LINK_STREAM
+ echo $youtubelink
  echo '[Unit]' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
  echo 'Description=digital signage stream' | sudo tee -a /etc/systemd/system/stream.service > /dev/null
  echo 'After=network.target' | sudo tee -a /etc/systemd/system/stream.service > /dev/null

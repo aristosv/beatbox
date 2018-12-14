@@ -38,7 +38,7 @@ echo clean
 sudo apt-get clean > /dev/null 2>&1
 
 echo create folders
-mkdir -p ~/media/{audio,video,images,youtube,logo}
+mkdir -p /home/pi/media/{audio,video,images,youtube,logo}
 
 echo hide rainbow
 sudo sed -i '1 i\disable_splash=1' /boot/config.txt

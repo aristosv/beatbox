@@ -1,4 +1,8 @@
-Using these scripts you can create jobs in [rundeck](https://github.com/rundeck/rundeck), to utilize a raspberry pi as a digital signage system. The scripts can handle playing video locally on the pi, stream or download from youtube, play audio, show a website or show a slideshow. 
+Using these scripts you can create jobs in [rundeck](https://github.com/rundeck/rundeck), to utilize a raspberry pi as a digital signage system. The scripts can handle playing:
+
+- local video or audio
+- stream or download from youtube
+- show a website or a slideshow. 
 
 There is also a script that prepares the pi, installs all dependencies, and configures a few parameters more suitable for a signage system.
 

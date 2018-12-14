@@ -4,7 +4,7 @@ Using these scripts you can create jobs in [rundeck](https://github.com/rundeck/
 - stream or download from youtube
 - show a website or a slideshow. 
 
-There is also a script that prepares the pi, installs all dependencies, and configures a few parameters more suitable for a signage system.
+There is also a script that prepares the pi. It installs all dependencies, and configures a few parameters more suitable for a signage system.
 
 - admin_prepare -> prepare the pi
 - signage_audio -> play local audio files

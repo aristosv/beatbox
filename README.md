@@ -1,3 +1,4 @@
+#beatbox
 Using these scripts you can create jobs in [rundeck](https://github.com/rundeck/rundeck), to utilize a raspberry pi as a digital signage system. The scripts can handle playing:
 
 - local video or audio

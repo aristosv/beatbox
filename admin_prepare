@@ -53,7 +53,7 @@ sudo systemctl disable getty@tty1.service > /dev/null 2>&1
 echo hide blinking cursor
 sudo sed -i "1 s|$| vt.global_cursor_default=0|" /boot/cmdline.txt
 
-echo hide undervoltage message
+echo hide undervoltage message on boot
 sudo sed -i "1 s|$| loglevel=1|" /boot/cmdline.txt
 
 echo hide undervoltage lightning bolt icon

@@ -4,7 +4,7 @@ monitor_cpu ()
  echo 'Description=digital signage cpu monitor' | sudo tee -a /etc/systemd/system/cpumonitor.service > /dev/null
  echo 'After=network.target' | sudo tee -a /etc/systemd/system/cpumonitor.service > /dev/null
  echo '[Service]' | sudo tee -a /etc/systemd/system/cpumonitor.service > /dev/null
- echo "ExecStart=/bin/bash -c \"while true; do if [ $(top -b -n1 | grep 'Cpu(s)' | awk '{print $2 + $4}' | awk '{print int($1+0.5)}') -gt 90 ]; then { echo Subject: CPU Alert - $HOSTNAME; echo CPU Usage on $HOSTNAME is $(top -b -n1 | grep 'Cpu(s)' | awk '{print $2 + $4}' | awk '{print int($1+0.5)}')%; } | /usr/sbin/ssmtp emailaddress; fi; sleep 30; done\"" | sudo tee -a /etc/systemd/system/cpumonitor.service > /dev/null
+ echo "ExecStart=/bin/bash -c \"while true; do if [ $(top -b -n1 | grep 'Cpu(s)' | awk '{print $2 + $4}' | awk '{print int($1+0.5)}') -gt 90 ]; then { echo Subject: CPU Alert - $HOSTNAME; echo CPU Usage on $HOSTNAME is $(top -b -n1 | grep 'Cpu(s)' | awk '{print $2 + $4}' | awk '{print int($1+0.5)}')%; } | /usr/sbin/ssmtp emailaddress; fi; sleep 3600; done\"" | sudo tee -a /etc/systemd/system/cpumonitor.service > /dev/null
  echo 'Restart=always' | sudo tee -a /etc/systemd/system/cpumonitor.service > /dev/null
  echo '[Install]' | sudo tee -a /etc/systemd/system/cpumonitor.service > /dev/null
  echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/cpumonitor.service > /dev/null
@@ -20,7 +20,7 @@ monitor_disk ()
  echo 'Description=digital signage disk monitor' | sudo tee -a /etc/systemd/system/diskmonitor.service > /dev/null
  echo 'After=network.target' | sudo tee -a /etc/systemd/system/diskmonitor.service > /dev/null
  echo '[Service]' | sudo tee -a /etc/systemd/system/diskmonitor.service > /dev/null
- echo "ExecStart=/bin/bash -c \"while true; do if [ $(df --output=pcent / | sed '1d;s/^ //;s/%//') -gt 90 ]; then { echo Subject: Disk Alert - $HOSTNAME; echo Disk Usage on $HOSTNAME is $(df --output=pcent / | sed '1d;s/^ //;s/%//')%; } | /usr/sbin/ssmtp emailaddress; fi; sleep 30; done\"" | sudo tee -a /etc/systemd/system/diskmonitor.service > /dev/null
+ echo "ExecStart=/bin/bash -c \"while true; do if [ $(df --output=pcent / | sed '1d;s/^ //;s/%//') -gt 90 ]; then { echo Subject: Disk Alert - $HOSTNAME; echo Disk Usage on $HOSTNAME is $(df --output=pcent / | sed '1d;s/^ //;s/%//')%; } | /usr/sbin/ssmtp emailaddress; fi; sleep 3600; done\"" | sudo tee -a /etc/systemd/system/diskmonitor.service > /dev/null
  echo 'Restart=always' | sudo tee -a /etc/systemd/system/diskmonitor.service > /dev/null
  echo '[Install]' | sudo tee -a /etc/systemd/system/diskmonitor.service > /dev/null
  echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/diskmonitor.service > /dev/null
@@ -36,7 +36,7 @@ monitor_memory ()
  echo 'Description=digital signage memory monitor' | sudo tee -a /etc/systemd/system/memorymonitor.service > /dev/null
  echo 'After=network.target' | sudo tee -a /etc/systemd/system/memorymonitor.service > /dev/null
  echo '[Service]' | sudo tee -a /etc/systemd/system/memorymonitor.service > /dev/null
- echo "ExecStart=/bin/bash -c \"while true; do if [ $(free | grep Mem | awk '{print $3/$2 * 100.0}' | awk '{print int($1+0.5)}') -gt 90 ]; then { echo Subject: Memory Alert - $HOSTNAME; echo Memory Usage on $HOSTNAME is $(free | grep Mem | awk '{print $3/$2 * 100.0}' | awk '{print int($1+0.5)}')%; } | /usr/sbin/ssmtp emailaddress; fi; sleep 30; done\"" | sudo tee -a /etc/systemd/system/memorymonitor.service > /dev/null
+ echo "ExecStart=/bin/bash -c \"while true; do if [ $(free | grep Mem | awk '{print $3/$2 * 100.0}' | awk '{print int($1+0.5)}') -gt 90 ]; then { echo Subject: Memory Alert - $HOSTNAME; echo Memory Usage on $HOSTNAME is $(free | grep Mem | awk '{print $3/$2 * 100.0}' | awk '{print int($1+0.5)}')%; } | /usr/sbin/ssmtp emailaddress; fi; sleep 3600; done\"" | sudo tee -a /etc/systemd/system/memorymonitor.service > /dev/null
  echo 'Restart=always' | sudo tee -a /etc/systemd/system/memorymonitor.service > /dev/null
  echo '[Install]' | sudo tee -a /etc/systemd/system/memorymonitor.service > /dev/null
  echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/memorymonitor.service > /dev/null

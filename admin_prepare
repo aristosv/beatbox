@@ -32,6 +32,9 @@ echo install youtube-dl
 sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl > /dev/null 2>&1
 sudo chmod a+rx /usr/local/bin/youtube-dl
 
+echo install ssmtp
+sudo apt-get install -y ssmtp > /dev/null 2>&1
+
 echo clean
 sudo apt-get clean > /dev/null 2>&1
 

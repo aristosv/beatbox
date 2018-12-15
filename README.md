@@ -14,6 +14,7 @@ The scripts can handle:
 
 There is also a script that prepares the pi. It installs all dependencies, and configures a few parameters more suitable for a signage system.
 
+- admin_monitor -> resource monitor
 - admin_prepare -> prepare the pi
 - signage_audio -> play local audio files
 - signage_browser -> show a website

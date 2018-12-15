@@ -1,0 +1,51 @@
+monitor_cpu ()
+{
+ echo '[Unit]' | sudo tee -a /etc/systemd/system/cpumonitor.service > /dev/null
+ echo 'Description=digital signage cpu monitor' | sudo tee -a /etc/systemd/system/cpumonitor.service > /dev/null
+ echo 'After=network.target' | sudo tee -a /etc/systemd/system/cpumonitor.service > /dev/null
+ echo '[Service]' | sudo tee -a /etc/systemd/system/cpumonitor.service > /dev/null
+ echo "ExecStart=/bin/bash -c \"while true; do if [ $(top -b -n1 | grep 'Cpu(s)' | awk '{print $2 + $4}' | awk '{print int($1+0.5)}') -gt 90 ]; then { echo Subject: CPU Alert - $HOSTNAME; echo CPU Usage on $HOSTNAME is $(top -b -n1 | grep 'Cpu(s)' | awk '{print $2 + $4}' | awk '{print int($1+0.5)}')%; } | /usr/sbin/ssmtp emailaddress; fi; sleep 30; done\"" | sudo tee -a /etc/systemd/system/cpumonitor.service > /dev/null
+ echo 'Restart=always' | sudo tee -a /etc/systemd/system/cpumonitor.service > /dev/null
+ echo '[Install]' | sudo tee -a /etc/systemd/system/cpumonitor.service > /dev/null
+ echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/cpumonitor.service > /dev/null
+ sudo sed -i -e "s|emailaddress|$RD_OPTION_EMAILADDRESS|g" /etc/systemd/system/cpumonitor.service
+ sudo systemctl daemon-reload
+ sudo systemctl start cpumonitor.service
+ sudo systemctl enable cpumonitor.service > /dev/null 2>&1
+}
+
+monitor_disk ()
+{
+ echo '[Unit]' | sudo tee -a /etc/systemd/system/diskmonitor.service > /dev/null
+ echo 'Description=digital signage disk monitor' | sudo tee -a /etc/systemd/system/diskmonitor.service > /dev/null
+ echo 'After=network.target' | sudo tee -a /etc/systemd/system/diskmonitor.service > /dev/null
+ echo '[Service]' | sudo tee -a /etc/systemd/system/diskmonitor.service > /dev/null
+ echo "ExecStart=/bin/bash -c \"while true; do if [ $(df --output=pcent / | sed '1d;s/^ //;s/%//') -gt 90 ]; then { echo Subject: Disk Alert - $HOSTNAME; echo Disk Usage on $HOSTNAME is $(df --output=pcent / | sed '1d;s/^ //;s/%//')%; } | /usr/sbin/ssmtp emailaddress; fi; sleep 30; done\"" | sudo tee -a /etc/systemd/system/diskmonitor.service > /dev/null
+ echo 'Restart=always' | sudo tee -a /etc/systemd/system/diskmonitor.service > /dev/null
+ echo '[Install]' | sudo tee -a /etc/systemd/system/diskmonitor.service > /dev/null
+ echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/diskmonitor.service > /dev/null
+ sudo sed -i -e "s|emailaddress|$RD_OPTION_EMAILADDRESS|g" /etc/systemd/system/diskmonitor.service
+ sudo systemctl daemon-reload
+ sudo systemctl start diskmonitor.service
+ sudo systemctl enable diskmonitor.service > /dev/null 2>&1
+}
+
+monitor_memory ()
+{
+ echo '[Unit]' | sudo tee -a /etc/systemd/system/memorymonitor.service > /dev/null
+ echo 'Description=digital signage memory monitor' | sudo tee -a /etc/systemd/system/memorymonitor.service > /dev/null
+ echo 'After=network.target' | sudo tee -a /etc/systemd/system/memorymonitor.service > /dev/null
+ echo '[Service]' | sudo tee -a /etc/systemd/system/memorymonitor.service > /dev/null
+ echo "ExecStart=/bin/bash -c \"while true; do if [ $(free | grep Mem | awk '{print $3/$2 * 100.0}' | awk '{print int($1+0.5)}') -gt 90 ]; then { echo Subject: Memory Alert - $HOSTNAME; echo Memory Usage on $HOSTNAME is $(free | grep Mem | awk '{print $3/$2 * 100.0}' | awk '{print int($1+0.5)}')%; } | /usr/sbin/ssmtp emailaddress; fi; sleep 30; done\"" | sudo tee -a /etc/systemd/system/memorymonitor.service > /dev/null
+ echo 'Restart=always' | sudo tee -a /etc/systemd/system/memorymonitor.service > /dev/null
+ echo '[Install]' | sudo tee -a /etc/systemd/system/memorymonitor.service > /dev/null
+ echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/memorymonitor.service > /dev/null
+ sudo sed -i -e "s|emailaddress|$RD_OPTION_EMAILADDRESS|g" /etc/systemd/system/memorymonitor.service
+ sudo systemctl daemon-reload
+ sudo systemctl start memorymonitor.service
+ sudo systemctl enable memorymonitor.service > /dev/null 2>&1
+}
+
+echo start cpu monitor ; monitor_cpu
+echo start disk monitor ; monitor_disk
+echo start memory monitor ; monitor_memory

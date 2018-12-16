@@ -16,6 +16,8 @@ There is also a script that prepares the pi. It installs all dependencies, and c
 
 - admin_monitor -> resource monitor
 - admin_prepare -> prepare the pi
+- admin_tunnel -> reverse ssh tunnel
+
 - signage_audio -> play local audio files
 - signage_browser -> show a website
 - signage_images -> play slideshow

@@ -21,6 +21,7 @@ There is also a script that prepares the pi. It installs all dependencies, and c
 - signage_audio -> play local audio files
 - signage_browser -> show a website
 - signage_images -> play slideshow
+- signage_logo -> show framebuffer logo
 - signage_stop -> stop signage services
 - signage_stream -> stream youtube video
 - signage_video -> play local video files

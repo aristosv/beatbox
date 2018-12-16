@@ -8,4 +8,4 @@ expand_filesystem ()
  sudo chmod +x /home/pi/startup
 }
 
-expand_filesystem
+echo expand filesystem ; expand_filesystem

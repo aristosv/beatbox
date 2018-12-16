@@ -34,11 +34,6 @@ sudo chmod a+rx /usr/local/bin/youtube-dl
 
 echo install ssmtp
 sudo apt-get install -y ssmtp > /dev/null 2>&1
-sudo truncate -s 0 /etc/ssmtp/ssmtp.conf
-echo "AuthUser=$user" | sudo tee -a /etc/ssmtp/ssmtp.conf > /dev/null
-echo "AuthPass=$pass" | sudo tee -a /etc/ssmtp/ssmtp.conf > /dev/null
-echo "mailhub=$host" | sudo tee -a /etc/ssmtp/ssmtp.conf > /dev/null
-echo 'UseSTARTTLS=YES' | sudo tee -a /etc/ssmtp/ssmtp.conf > /dev/null
 
 echo clean
 sudo apt-get clean > /dev/null 2>&1

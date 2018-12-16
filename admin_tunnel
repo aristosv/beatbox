@@ -13,4 +13,4 @@ start_tunnel ()
  sudo systemctl enable tunnel.service > /dev/null 2>&1
 }
 
-start_tunnel
+echo start tunnel ; start_tunnel

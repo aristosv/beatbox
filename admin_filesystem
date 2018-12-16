@@ -1,0 +1,9 @@
+expand_filesystem ()
+{
+ sudo sed -i '$i/home/pi/startup' /etc/rc.local
+ echo 'sudo raspi-config --expand-rootfs' | sudo tee -a /home/pi/startup > /dev/null
+ echo 'sudo sed -i '/startup/d' /etc/rc.local' | sudo tee -a /home/pi/startup > /dev/null
+ echo 'rm /home/pi/startup' | sudo tee -a /home/pi/startup > /dev/null
+ echo 'sudo reboot' | sudo tee -a /home/pi/startup > /dev/null
+ sudo chmod +x /home/pi/startup
+}

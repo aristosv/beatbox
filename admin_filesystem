@@ -7,3 +7,5 @@ expand_filesystem ()
  echo 'sudo reboot' | sudo tee -a /home/pi/startup > /dev/null
  sudo chmod +x /home/pi/startup
 }
+
+expand_filesystem

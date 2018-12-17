@@ -17,7 +17,8 @@ There is also a script that prepares the pi. It installs all dependencies, and c
 - admin_filesystem -> expand filesystem on first boot
 - admin_monitor -> resource monitor
 - admin_prepare -> prepare the pi
-- admin_tunnel -> reverse ssh tunnel
+- admin_report -> generate & email report on boot
+- admin_tunnel -> create reverse ssh tunnel
 - signage_audio -> play local audio files
 - signage_browser -> show a website
 - signage_images -> play slideshow
@@ -25,6 +26,6 @@ There is also a script that prepares the pi. It installs all dependencies, and c
 - signage_stop -> stop signage services
 - signage_stream -> stream youtube video
 - signage_video -> play local video files
-- signage_youtube -> download and play youtube video
+- signage_youtube -> download & play youtube video
 
 Keep in mind I'm working on this for the learning experience. There's no warranty whatsoever that these are robust enough to be used in a production environment.

@@ -30,4 +30,4 @@ boot_report ()
  sudo sed -i '$i/usr/local/bin/report' /etc/rc.local
 }
 
-boot_report
+echo create report ; boot_report

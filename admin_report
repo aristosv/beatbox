@@ -31,3 +31,4 @@ boot_report ()
 }
 
 echo create report ; boot_report
+{ echo Subject: $HOSTNAME Report; cat $logdir/$HOSTNAME.log; } | sudo /usr/sbin/ssmtp $emailaddress

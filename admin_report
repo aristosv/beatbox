@@ -22,13 +22,14 @@ boot_report ()
  echo 'Local IP: $(hostname -I)' | sudo tee -a /usr/local/bin/report > /dev/null
  echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
  echo 'Public IP: $(/usr/bin/curl -s http://whatismyip.akamai.com/)' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
  echo 'EOL' | sudo tee -a /usr/local/bin/report > /dev/null
  
- echo '{ echo Subject: $HOSTNAME Report; cat /tmp/report.log; } | sudo ssmtp $RD_OPTION_EMAILADDRESS' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo '{ echo Subject: $HOSTNAME Report; cat /tmp/report.log; } | sudo ssmtp emailaddress' | sudo tee -a /usr/local/bin/report > /dev/null
  echo 'sudo rm /tmp/report.log' | sudo tee -a /usr/local/bin/report > /dev/null
- 
+ sudo sed -i -e "s|emailaddress|$RD_OPTION_EMAILADDRESS|g" /usr/local/bin/report
  sudo chmod a+rx /usr/local/bin/report
- sudo sed -i '$isudo /usr/local/bin/report' /etc/rc.local
+ sudo sed -i '$i/usr/local/bin/report' /etc/rc.local
 }
 
 echo create report ; boot_report

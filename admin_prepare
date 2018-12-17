@@ -38,6 +38,9 @@ sudo apt-get install -y ssmtp > /dev/null 2>&1
 echo clean
 sudo apt-get clean > /dev/null 2>&1
 
+echo set timezone
+sudo timedatectl set-timezone Asia/Nicosia
+
 echo create folders
 mkdir -p /home/pi/media/{audio,video,images,youtube,logo}
 

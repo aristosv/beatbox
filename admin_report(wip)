@@ -27,6 +27,7 @@ boot_report ()
  echo 'Public IP: $(/usr/bin/curl -s http://whatismyip.akamai.com/)' | sudo tee -a /usr/local/bin/report > /dev/null
  echo 'EOL' | sudo tee -a /usr/local/bin/report > /dev/null
  sudo chmod a+rx /usr/local/bin/report
+ sudo sed -i '$i/usr/local/bin/report' /etc/rc.local
 }
 
 boot_report

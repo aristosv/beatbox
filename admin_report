@@ -1,0 +1,31 @@
+boot_report ()
+{
+ echo 'cat >/home/pi/scripts/report.log <<EOL' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo '$HOSTNAME has been rebooted' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo 'REPORT' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo 'Audio Files: $(ls -F /home/pi/media/audio | wc -l)' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo 'Video Files: $(ls -F /home/pi/media/video | wc -l)' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo 'Image Files: $(ls -F /home/pi/media/images | wc -l)' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo 'YouTube Files: $(ls -F /home/pi/media/youtube | wc -l)' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo 'Host Name: $HOSTNAME' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo 'Date: $(date)' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo 'CPU Usage: $(top -b -n1 | grep 'Cpu(s)' | awk '{print $2 + $4}' | awk '{print int($1+0.5)}')%' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo 'Disk Usage: $(df --output=pcent / | sed '1d;s/^ //;s/%//')%' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo 'Memory Usage: $(free | grep Mem | awk '{print $3/$2 * 100.0}' | awk '{print int($1+0.5)}')%' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo 'Temperature: $(sudo /opt/vc/bin/vcgencmd measure_temp | sed -e 's/temp=//')' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo 'Local IP: $(hostname -I)' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo 'echo 'Public IP: $(/usr/bin/curl -s http://whatismyip.akamai.com/)' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo 'EOL' | sudo tee -a /usr/local/bin/report > /dev/null
+}
+
+boot_report

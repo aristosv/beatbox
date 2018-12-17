@@ -7,7 +7,7 @@ It's as simple as adding a step and copying the script.
 Or adding a step and linking it to the script.
 ![alt text](https://github.com/aristosv/beatbox/blob/master/example2.png)
 
-The scripts can handle:
+The scripts can:
 - play local video or audio
 - stream or download from youtube
 - show a website or a slideshow. 

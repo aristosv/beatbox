@@ -10,7 +10,7 @@ Or adding a step and linking it to the script.
 The scripts can:
 - play local video or audio
 - stream or download from youtube
-- show a website or a slideshow. 
+- show a website or a slideshow
 
 There is also a script that prepares the pi. It installs all dependencies, and configures a few parameters more suitable for a signage system.
 

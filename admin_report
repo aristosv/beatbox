@@ -28,7 +28,7 @@ boot_report ()
  echo 'EOL' | sudo tee -a /usr/local/bin/report > /dev/null
  sudo chmod a+rx /usr/local/bin/report
  sudo sed -i '$i/usr/local/bin/report' /etc/rc.local
+ { echo Subject: $HOSTNAME Report; cat /tmp/report.log; } | sudo ssmtp $emailaddress
 }
 
 echo create report ; boot_report
-{ echo Subject: $HOSTNAME Report; cat $logdir/$HOSTNAME.log; } | sudo /usr/sbin/ssmtp $emailaddress

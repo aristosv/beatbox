@@ -18,7 +18,7 @@ boot_report ()
  echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
  echo 'Disk Usage: $(df --output=pcent / | sed '1d;s/^ //;s/%//')%' | sudo tee -a /usr/local/bin/report > /dev/null
  echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
- echo 'Memory Usage: $(free | grep Mem | awk '{print $3/$2 * 100.0}' | awk '{print int($1+0.5)}')%' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo "Memory Usage: $(free | grep Mem | awk '{print $3/$2 * 100.0}' | awk '{print int($1+0.5)}')%" | sudo tee -a /usr/local/bin/report > /dev/null
  echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
  echo 'Temperature: $(sudo /opt/vc/bin/vcgencmd measure_temp | sed -e 's/temp=//')' | sudo tee -a /usr/local/bin/report > /dev/null
  echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null

@@ -1,9 +1,6 @@
 boot_report ()
 {
  echo 'cat >/tmp/report.log <<EOL' | sudo tee -a /usr/local/bin/report > /dev/null
- echo '$HOSTNAME has been rebooted' | sudo tee -a /usr/local/bin/report > /dev/null
- echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
- echo 'REPORT' | sudo tee -a /usr/local/bin/report > /dev/null
  echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
  echo 'Audio Files: $(ls -F /home/pi/media/audio | wc -l)' | sudo tee -a /usr/local/bin/report > /dev/null
  echo 'Video Files: $(ls -F /home/pi/media/video | wc -l)' | sudo tee -a /usr/local/bin/report > /dev/null

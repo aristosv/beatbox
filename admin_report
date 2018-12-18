@@ -7,7 +7,7 @@ boot_report ()
  echo 'Image Files: $(ls -F /home/pi/media/images | wc -l)' | sudo tee -a /usr/local/bin/report > /dev/null
  echo 'YouTube Files: $(ls -F /home/pi/media/youtube | wc -l)' | sudo tee -a /usr/local/bin/report > /dev/null
  echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
- echo 'Host Name: $HOSTNAME' | sudo tee -a /usr/local/bin/report > /dev/null
+ echo 'Host Name: echo $HOSTNAME' | sudo tee -a /usr/local/bin/report > /dev/null
  echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
  echo 'Date: $(date)' | sudo tee -a /usr/local/bin/report > /dev/null
  echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null

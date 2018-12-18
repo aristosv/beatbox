@@ -1,16 +1,21 @@
 start_tunnel ()
 {
- echo '[Unit]' | sudo tee -a /etc/systemd/system/tunnel.service > /dev/null
- echo 'Description=digital signage tunnel' | sudo tee -a /etc/systemd/system/tunnel.service > /dev/null
- echo 'After=network.target' | sudo tee -a /etc/systemd/system/tunnel.service > /dev/null
- echo '[Service]' | sudo tee -a /etc/systemd/system/tunnel.service > /dev/null
- echo 'ExecStart=/bin/bash -c "while true; do sshpass -p $sshpassword ssh -p 22 -t -t $sshoptions user@$sshhost -R $reverseport:127.0.0.1:22; sleep 60; done"' | sudo tee -a /etc/systemd/system/tunnel.service > /dev/null
- echo 'Restart=always' | sudo tee -a /etc/systemd/system/tunnel.service > /dev/null
- echo '[Install]' | sudo tee -a /etc/systemd/system/tunnel.service > /dev/null
- echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/tunnel.service > /dev/null
- sudo systemctl daemon-reload
- sudo systemctl start tunnel.service
- sudo systemctl enable tunnel.service > /dev/null 2>&1
+sudo bash -c 'cat > /etc/systemd/system/tunnel.service' << 'EOL'
+[Unit]
+Description=reverse ssh tunnel
+After=network.target
+
+[Service]
+ExecStart=/bin/bash -c "while true; do sshpass -p $sshpassword ssh -p 22 -t -t $sshoptions user@$sshhost -R $reverseport:127.0.0.1:22; sleep 60; done"
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOL
+
+sudo systemctl daemon-reload
+sudo systemctl start tunnel.service
+sudo systemctl enable tunnel.service > /dev/null 2>&1
 }
 
 echo start tunnel ; start_tunnel

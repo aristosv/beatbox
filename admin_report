@@ -1,33 +1,36 @@
 boot_report ()
-{ 
- echo 'cat >/tmp/report.log <<EOL' | sudo tee -a /usr/local/bin/report > /dev/null
- echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
- echo 'Audio Files: $(ls -F /home/pi/media/audio | wc -l)' | sudo tee -a /usr/local/bin/report > /dev/null
- echo 'Video Files: $(ls -F /home/pi/media/video | wc -l)' | sudo tee -a /usr/local/bin/report > /dev/null
- echo 'Image Files: $(ls -F /home/pi/media/images | wc -l)' | sudo tee -a /usr/local/bin/report > /dev/null
- echo 'YouTube Files: $(ls -F /home/pi/media/youtube | wc -l)' | sudo tee -a /usr/local/bin/report > /dev/null
- echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
- echo 'Host Name: echo $HOSTNAME' | sudo tee -a /usr/local/bin/report > /dev/null
- echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
- echo 'Date: $(date)' | sudo tee -a /usr/local/bin/report > /dev/null
- echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
- echo 'CPU Usage: $(top -b -n1 | grep '\''Cpu(s)'\'' | awk '\''{print $2 + $4}'\'' | awk '\''{print int($1+0.5)}'\'')%' | sudo tee -a /usr/local/bin/report > /dev/null
- echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
- echo 'Disk Usage: $(df --output=pcent / | sed '\''1d;s/^ //;s/%//'\'')%' | sudo tee -a /usr/local/bin/report > /dev/null
- echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
- echo 'Memory Usage: $(free | grep Mem | awk '\''{print $3/$2 * 100.0}'\'' | awk '\''{print int($1+0.5)}'\'')%' | sudo tee -a /usr/local/bin/report > /dev/null
- echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
- echo 'Temperature: $(sudo /opt/vc/bin/vcgencmd measure_temp | sed -e 's/temp=//')' | sudo tee -a /usr/local/bin/report > /dev/null
- echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
- echo 'Local IP: $(hostname -I)' | sudo tee -a /usr/local/bin/report > /dev/null
- echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
- echo 'Public IP: $(/usr/bin/curl -s http://whatismyip.akamai.com/)' | sudo tee -a /usr/local/bin/report > /dev/null
- echo '-----------------------------------' | sudo tee -a /usr/local/bin/report > /dev/null
- echo 'EOL' | sudo tee -a /usr/local/bin/report > /dev/null
- echo '{ echo Subject: $HOSTNAME Report; cat /tmp/report.log; } | sudo ssmtp $emailaddress' | sudo tee -a /usr/local/bin/report > /dev/null
- echo 'sudo rm /tmp/report.log' | sudo tee -a /usr/local/bin/report > /dev/null
- sudo chmod a+rx /usr/local/bin/report
- sudo sed -i '$i/usr/local/bin/report' /etc/rc.local
+{
+sudo bash -c 'cat > /usr/local/bin/report' << 'EOL'
+cat >/tmp/report.log <<EOF
+-----------------------------------
+Audio Files: $(ls -F /home/pi/media/audio | wc -l)
+Video Files: $(ls -F /home/pi/media/video | wc -l)
+Image Files: $(ls -F /home/pi/media/images | wc -l)
+YouTube Files: $(ls -F /home/pi/media/youtube | wc -l)
+-----------------------------------
+Host Name: echo $HOSTNAME
+-----------------------------------
+Date: $(date)
+-----------------------------------
+CPU Usage: $(top -b -n1 | grep 'Cpu(s)' | awk '{print $2 + $4}' | awk '{print int($1+0.5)}')%
+-----------------------------------
+Disk Usage: $(df --output=pcent / | sed '1d;s/^ //;s/%//')%
+-----------------------------------
+Memory Usage: $(free | grep Mem | awk '{print $3/$2 * 100.0}' | awk '{print int($1+0.5)}')%
+-----------------------------------
+Temperature: $(sudo /opt/vc/bin/vcgencmd measure_temp | sed -e s/temp=//)
+-----------------------------------
+Local IP: $(hostname -I)
+-----------------------------------
+Public IP: $(/usr/bin/curl -s http://whatismyip.akamai.com/)
+-----------------------------------
+EOF
+{ echo Subject: $HOSTNAME Report; cat /tmp/report.log; } | sudo ssmtp aristos@aristos.net
+sudo rm /tmp/report.log
+EOL
+
+sudo chmod a+rx /usr/local/bin/report
+sudo sed -i '$i/usr/local/bin/report' /etc/rc.local
 }
 
-echo create report ; boot_report
+echo create boot report ; boot_report

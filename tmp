@@ -2,7 +2,8 @@ create_cpu_monitor_script ()
 {
  cat > /usr/local/bin/cpu_monitor << 'EOL'
  emailaddress=
- cpu_threshold=1
+ cpu_threshold=89
+ check_interval=300
 
  while :
  do
@@ -12,7 +13,7 @@ create_cpu_monitor_script ()
     echo CPU Usage on $HOSTNAME is $cpu_usage%
     { echo Subject: CPU Alert - $cpu_usage% on $HOSTNAME; echo CPU Usage on $HOSTNAME is $cpu_usage%; } | ssmtp $emailaddress
    fi
-  sleep 300
+  sleep $check_interval
  done
  EOL
 }

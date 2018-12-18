@@ -51,9 +51,9 @@ Description=temperature monitor
 After=network.target
 
 [Service]
-Environment=temperature=$(sudo /opt/vc/bin/vcgencmd measure_temp | sed -e 's/temp=//' | sed -e "s/[.].*//")
-Environment=send_email='echo Subject: Temperature Alert - $HOSTNAME; echo Temperature on $HOSTNAME is $temperature;'
-ExecStart=/bin/bash -c "while true; do if [ $temperature -gt $threshold ]; then { $send_email } | ssmtp $email_address; fi; sleep $check_interval; done"
+Environment=temperature_level=$(sudo /opt/vc/bin/vcgencmd measure_temp | sed -e 's/temp=//' | sed -e "s/[.].*//")
+Environment=send_email='echo Subject: Temperature Alert - $HOSTNAME; echo Temperature on $HOSTNAME is $temperature_level;'
+ExecStart=/bin/bash -c "while true; do if [ $temperature_level -gt $temperature_threshold ]; then { $send_email } | ssmtp $email_address; fi; sleep $check_interval; done"
 Restart=always
 
 [Install]

@@ -1,6 +1,6 @@
 create_cpu_monitor_script ()
 {
-cat > /usr/local/bin/cpu_monitor << 'EOL'
+sudo cat > /usr/local/bin/cpu_monitor << 'EOL'
 emailaddress=
 cpu_threshold=90
 check_interval=300
@@ -17,12 +17,12 @@ do
 done
 EOL
 
-chmod +x /usr/local/bin/cpu_monitor
+sudo chmod a+rx /usr/local/bin/cpu_monitor
 }
 
 create_cpu_monitor_service ()
 {
-cat > /etc/systemd/system/cpumonitor.service << 'EOL'
+sudo cat > /etc/systemd/system/cpumonitor.service << 'EOL'
 [Unit]
 Description=cpu monitor
 After=network.target

@@ -6,8 +6,12 @@ Description=cpu monitor
 After=network.target
 
 [Service]
+Environment=cpu_threshold=90
+Environment=check_interval=3600
+Environment=email_address=email.address.here
 Environment=cpu_usage=$(top -b -n1 | grep Cpu | awk '{print $2 + $4}' | awk '{print int($1+0.5)}')
 Environment=send_email='echo Subject: CPU Alert - $HOSTNAME; echo CPU Usage on $HOSTNAME is $cpu_usage%;'
+
 ExecStart=/bin/bash -c "while true; do if [ $cpu_usage -gt $cpu_threshold ]; then { $send_email } | ssmtp $email_address; fi; sleep $check_interval; done"
 Restart=always
 
@@ -21,8 +25,12 @@ Description=disk monitor
 After=network.target
 
 [Service]
+Environment=disk_threshold=90
+Environment=check_interval=3600
+Environment=email_address=email.address.here
 Environment=disk_usage=$(df --output=pcent / | sed '1d;s/^ //;s/%//')
 Environment=send_email='echo Subject: Disk Alert - $HOSTNAME; echo Disk Usage on $HOSTNAME is $disk_usage%;'
+
 ExecStart=/bin/bash -c "while true; do if [ $disk_usage -gt $disk_threshold ]; then { $send_email } | ssmtp $email_address; fi; sleep $check_interval; done"
 Restart=always
 
@@ -36,8 +44,12 @@ Description=memory monitor
 After=network.target
 
 [Service]
+Environment=memory_threshold=90
+Environment=check_interval=3600
+Environment=email_address=email.address.here
 Environment=memory_usage=$(free | grep Mem | awk '{print $3/$2 * 100.0}' | awk '{print int($1+0.5)}')
 Environment=send_email='echo Subject: Memory Alert - $HOSTNAME; echo Memory Usage on $HOSTNAME is $memory_usage%;'
+
 ExecStart=/bin/bash -c "while true; do if [ $memory_usage -gt $memory_threshold ]; then { $send_email } | ssmtp $email_address; fi; sleep $check_interval; done"
 Restart=always
 
@@ -51,8 +63,12 @@ Description=temperature monitor
 After=network.target
 
 [Service]
+Environment=check_interval=3600
+Environment=temperature_level=90
+Environment=email_address=email.address.here
 Environment=temperature_level=$(sudo /opt/vc/bin/vcgencmd measure_temp | sed -e 's/temp=//' | sed -e "s/[.].*//")
 Environment=send_email='echo Subject: Temperature Alert - $HOSTNAME; echo Temperature on $HOSTNAME is $temperature_level;'
+
 ExecStart=/bin/bash -c "while true; do if [ $temperature_level -gt $temperature_threshold ]; then { $send_email } | ssmtp $email_address; fi; sleep $check_interval; done"
 Restart=always
 
@@ -60,6 +76,7 @@ Restart=always
 WantedBy=multi-user.target
 EOL
 
+sudo systemctl daemon-reload
 sudo systemctl enable cpumonitor.service > /dev/null 2>&1
 sudo systemctl enable diskmonitor.service > /dev/null 2>&1
 sudo systemctl enable memorymonitor.service > /dev/null 2>&1

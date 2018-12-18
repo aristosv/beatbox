@@ -1,11 +1,13 @@
 expand_filesystem ()
 {
- sudo sed -i '$i/home/pi/startup' /etc/rc.local
- echo 'sudo raspi-config --expand-rootfs' | sudo tee -a /home/pi/startup > /dev/null
- echo 'sudo sed -i '/startup/d' /etc/rc.local' | sudo tee -a /home/pi/startup > /dev/null
- echo 'rm /home/pi/startup' | sudo tee -a /home/pi/startup > /dev/null
- echo 'sudo reboot' | sudo tee -a /home/pi/startup > /dev/null
- sudo chmod +x /home/pi/startup
+sudo sed -i '$i/home/pi/startup' /etc/rc.local
+sudo bash -c 'cat > /home/pi/startup' << 'EOL'
+sudo raspi-config --expand-rootfs
+sudo sed -i '/startup/d' /etc/rc.local
+rm /home/pi/startup
+sudo reboot
+EOL
+sudo chmod +x /home/pi/startup
 }
 
 echo expand filesystem ; expand_filesystem

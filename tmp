@@ -16,5 +16,29 @@ do
  sleep $check_interval
 done
 EOL
+
+chmod +x /usr/local/bin/cpu_monitor
 }
+
+create_cpu_monitor_service ()
+{
+cat > /etc/systemd/system/cpumonitor.service << 'EOL'
+[Unit]
+Description=cpu monitor
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/cpu_monitor
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOL
+
+sudo systemctl daemon-reload
+sudo systemctl start cpumonitor.service
+sudo systemctl enable cpumonitor.service > /dev/null 2>&1
+}
+
 create_cpu_monitor_script
+create_cpu_monitor_service

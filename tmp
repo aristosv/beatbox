@@ -1,18 +1,19 @@
-cpu_monitor ()
+create_cpu_monitor_script ()
 {
- echo 'emailaddress=' | sudo tee -a /usr/local/bin/cpu_monitor
- echo 'cpu_threshold=1' | sudo tee -a /usr/local/bin/cpu_monitor
+cat > /root/log.txt << 'EOL'
+emailaddress=
+cpu_threshold=1
 
- echo 'while :' | sudo tee -a /usr/local/bin/cpu_monitor
- echo 'do' | sudo tee -a /usr/local/bin/cpu_monitor
- echo ' cpu_usage=$(top -b -n1 | grep Cpu | awk '\''{print $2 + $4}'\'' | awk '\''{print int($1+0.5)}'\'')' | sudo tee -a /usr/local/bin/cpu_monitor
- echo '  if [ $cpu_usage -gt $cpu_threshold ]' | sudo tee -a /usr/local/bin/cpu_monitor
- echo '   then' | sudo tee -a /usr/local/bin/cpu_monitor
- echo '   echo CPU Usage on $HOSTNAME is $cpu_usage%' | sudo tee -a /usr/local/bin/cpu_monitor
- echo '   { echo Subject: CPU Alert - $cpu_usage% on $HOSTNAME; echo CPU Usage on $HOSTNAME is $cpu_usage%; } | ssmtp $emailaddress' | sudo tee -a /usr/local/bin/cpu_monitor
- echo '  fi' | sudo tee -a /usr/local/bin/cpu_monitor
- echo ' sleep 300' | sudo tee -a /usr/local/bin/cpu_monitor
- echo 'done' | sudo tee -a /usr/local/bin/cpu_monitor
-}
+while :
+do
+ cpu_usage=$(top -b -n1 | grep Cpu | awk '{print $2 + $4}' | awk '{print int($1+0.5)}')
+  if [ $cpu_usage -gt $cpu_threshold ]
+   then
+   echo CPU Usage on $HOSTNAME is $cpu_usage%
+   { echo Subject: CPU Alert - $cpu_usage% on $HOSTNAME; echo CPU Usage on $HOSTNAME is $cpu_usage%; } | ssmtp $emailaddress
+  fi
+ sleep 300
+done
+EOL
 
-cpu_monitor
+create_cpu_monitor_script

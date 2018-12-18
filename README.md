@@ -28,4 +28,4 @@ There is also a script that prepares the pi. It installs all dependencies, and c
 - signage_video -> play local video files
 - signage_youtube -> download & play youtube video
 
-Keep in mind I'm working on this for the learning experience. There's no warranty whatsoever that these are robust enough to be used in a production environment.
+Keep in mind I'm working on this for the learning experience. There are no warranties whatsoever.

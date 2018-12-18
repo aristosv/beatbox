@@ -1,20 +1,20 @@
 create_cpu_monitor_script ()
 {
- cat > /usr/local/bin/cpu_monitor << 'EOL'
- emailaddress=
- cpu_threshold=90
- check_interval=300
+cat > /usr/local/bin/cpu_monitor << 'EOL'
+emailaddress=
+cpu_threshold=90
+check_interval=300
 
- while :
- do
-  cpu_usage=$(top -b -n1 | grep Cpu | awk '{print $2 + $4}' | awk '{print int($1+0.5)}')
-   if [ $cpu_usage -gt $cpu_threshold ]
-    then
-    echo CPU Usage on $HOSTNAME is $cpu_usage%
-    { echo Subject: CPU Alert - $cpu_usage% on $HOSTNAME; echo CPU Usage on $HOSTNAME is $cpu_usage%; } | ssmtp $emailaddress
-   fi
-  sleep $check_interval
- done
- EOL
+while :
+do
+ cpu_usage=$(top -b -n1 | grep Cpu | awk '{print $2 + $4}' | awk '{print int($1+0.5)}')
+  if [ $cpu_usage -gt $cpu_threshold ]
+   then
+   echo CPU Usage on $HOSTNAME is $cpu_usage%
+   { echo Subject: CPU Alert - $cpu_usage% on $HOSTNAME; echo CPU Usage on $HOSTNAME is $cpu_usage%; } | ssmtp $emailaddress
+  fi
+ sleep $check_interval
+done
+EOL
 }
 create_cpu_monitor_script

@@ -1,6 +1,6 @@
 create_cpu_monitor_script ()
 {
-cat > /root/log.txt << 'EOL'
+cat > /usr/local/bin/cpu_monitor << 'EOL'
 emailaddress=
 cpu_threshold=1
 

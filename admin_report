@@ -25,7 +25,7 @@ Local IP: $(hostname -I)
 Public IP: $(/usr/bin/curl -s http://whatismyip.akamai.com/)
 -----------------------------------
 EOF
-{ echo Subject: $HOSTNAME Report; cat /tmp/report.log; } | sudo ssmtp $emailaddress
+{ echo Subject: $(cat /etc/hostname) Report; cat /tmp/report.log; } | sudo ssmtp $emailaddress
 sudo rm /tmp/report.log
 EOL
 

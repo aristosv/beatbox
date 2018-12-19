@@ -8,7 +8,7 @@ Video Files: $(ls -F /home/pi/media/video | wc -l)
 Image Files: $(ls -F /home/pi/media/images | wc -l)
 YouTube Files: $(ls -F /home/pi/media/youtube | wc -l)
 -----------------------------------
-Host Name: echo $HOSTNAME
+Host Name: $(cat /etc/hostname)
 -----------------------------------
 Date: $(date)
 -----------------------------------

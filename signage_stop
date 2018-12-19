@@ -17,17 +17,22 @@ clear_framebuffer ()
 
 start_logo ()
 {
- echo '[Unit]' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
- echo 'Description=digital signage logo' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
- echo 'After=network.target' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
- echo '[Service]' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
- echo 'ExecStart=/usr/bin/fim -q /home/pi/media/logo/bbx.png > /dev/null 2>&1 &' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
- echo 'Restart=always' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
- echo '[Install]' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
- echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/logo.service > /dev/null
- sudo systemctl daemon-reload
- sudo systemctl start logo.service
- sudo systemctl enable logo.service > /dev/null 2>&1
+sudo bash -c 'cat > /etc/systemd/system/audio.service' << 'EOL'
+[Unit]
+Description=logo service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/fim -q /home/pi/media/logo/bbx.png > /dev/null 2>&1 &
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOL
+
+sudo systemctl daemon-reload
+sudo systemctl start logo.service
+sudo systemctl enable logo.service > /dev/null 2>&1
 }
 
 stop_service

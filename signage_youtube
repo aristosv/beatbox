@@ -24,7 +24,7 @@ start_service ()
 {
 sudo bash -c 'cat > /etc/systemd/system/youtube.service' << 'EOL'
 [Unit]
-Description=digital signage youtube
+Description=youtube service
 After=network.target
 
 [Service]

@@ -7,6 +7,9 @@ It's as simple as adding a step and copying the script.
 Or adding a step and linking it to the script.
 ![alt text](https://github.com/aristosv/beatbox/blob/master/example2.png)
 
+For example this is how I set up a raspberry pi as a digital signage system. Step 7 basically configures the variables in the scripts that were created on the pi during the previous steps. Step 8 copies an image to be used as a logo on the framebuffer.
+![alt text](https://github.com/aristosv/beatbox/blob/master/example3.png)
+
 The scripts can:
 - play local video or audio
 - stream or download from youtube

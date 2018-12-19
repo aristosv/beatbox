@@ -17,7 +17,7 @@ clear_framebuffer ()
 
 start_service ()
 {
-sudo bash -c 'cat > /etc/systemd/system/audio.service' << 'EOL'
+sudo bash -c 'cat > /etc/systemd/system/browser.service' << 'EOL'
 [Unit]
 Description=browser service
 After=network.target

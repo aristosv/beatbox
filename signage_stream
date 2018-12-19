@@ -19,7 +19,7 @@ start_service ()
 {
 sudo bash -c 'cat > /etc/systemd/system/stream.service' << 'EOL'
 [Unit]
-Description=digital signage stream
+Description=stream service
 After=network.target
 
 [Service]

@@ -56,6 +56,9 @@ sudo sed -i "1 s|$| quiet splash|" /boot/cmdline.txt
 echo disable login prompt
 sudo systemctl disable getty@tty1.service > /dev/null 2>&1
 
+echo remove default pi password warning
+sudo rm /etc/profile.d/sshpwd.sh
+
 echo hide blinking cursor
 sudo sed -i "1 s|$| vt.global_cursor_default=0|" /boot/cmdline.txt
 

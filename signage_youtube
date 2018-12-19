@@ -22,17 +22,22 @@ clear_framebuffer ()
 
 start_service ()
 {
- echo '[Unit]' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
- echo 'Description=digital signage youtube' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
- echo 'After=network.target' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
- echo '[Service]' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
- echo 'ExecStart=/bin/bash -c "while true ; do for youtube in $(ls /home/pi/media/youtube/* | shuf); do omxplayer --no-keys --no-osd $youtube; done; done"' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
- echo 'Restart=always' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
- echo '[Install]' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
- echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/youtube.service > /dev/null
- sudo systemctl daemon-reload
- sudo systemctl start youtube.service
- sudo systemctl enable youtube.service > /dev/null 2>&1
+sudo bash -c 'cat > /etc/systemd/system/youtube.service' << 'EOL'
+[Unit]
+Description=digital signage youtube
+After=network.target
+
+[Service]
+ExecStart=/bin/bash -c "while true ; do for youtube in $(ls /home/pi/media/youtube/* | shuf); do omxplayer --no-keys --no-osd $youtube; done; done"
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOL
+
+sudo systemctl daemon-reload
+sudo systemctl start youtube.service
+sudo systemctl enable youtube.service > /dev/null 2>&1
 }
 
 rm -rf /home/pi/media/youtube/*

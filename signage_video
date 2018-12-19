@@ -22,17 +22,20 @@ clear_framebuffer ()
 
 start_service ()
 {
- echo '[Unit]' | sudo tee -a /etc/systemd/system/video.service > /dev/null
- echo 'Description=digital signage video' | sudo tee -a /etc/systemd/system/video.service > /dev/null
- echo 'After=network.target' | sudo tee -a /etc/systemd/system/video.service > /dev/null
- echo '[Service]' | sudo tee -a /etc/systemd/system/video.service > /dev/null
- echo 'ExecStart=/bin/bash -c "while true ; do for video in $(ls /home/pi/media/video/* | shuf); do omxplayer --no-keys --no-osd $video; done; done"' | sudo tee -a /etc/systemd/system/video.service > /dev/null
- echo 'Restart=always' | sudo tee -a /etc/systemd/system/video.service > /dev/null
- echo '[Install]' | sudo tee -a /etc/systemd/system/video.service > /dev/null
- echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/video.service > /dev/null
- sudo systemctl daemon-reload
- sudo systemctl start video.service
- sudo systemctl enable video.service > /dev/null 2>&1
+sudo bash -c 'cat > /etc/systemd/system/video.service' << 'EOL'
+[Unit]
+Description=video service
+After=network.target
+[Service]
+ExecStart=/bin/bash -c "while true ; do for video in $(ls /home/pi/media/video/* | shuf); do omxplayer --no-keys --no-osd $video; done; done"
+Restart=always
+[Install]
+WantedBy=multi-user.target
+EOL
+
+sudo systemctl daemon-reload
+sudo systemctl start video.service
+sudo systemctl enable video.service > /dev/null 2>&1
 }
 
 echo update video ; update_media

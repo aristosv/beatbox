@@ -17,18 +17,23 @@ clear_framebuffer ()
 
 start_service ()
 {
- echo '[Unit]' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
- echo 'Description=digital signage browser' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
- echo 'After=network.target' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
- echo '[Service]' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
- echo 'ExecStart=/bin/bash -c "export DISPLAY=:0.0 ; sudo startx /usr/bin/chromium-browser weburl -no-sandbox --window-size=9000,9000 --start-fullscreen --kiosk --incognito --noerrdialogs --no-first-run --fast --fast-start --disable-infobars --disk-cache-dir=/dev/null"' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
- echo 'Restart=always' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
- echo '[Install]' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
- echo 'WantedBy=multi-user.target' | sudo tee -a /etc/systemd/system/browser.service > /dev/null
- sudo sed -i -e "s|weburl|$RD_OPTION_WEBSITE_ADDRESS|g" /etc/systemd/system/browser.service
- sudo systemctl daemon-reload
- sudo systemctl start browser.service
- sudo systemctl enable browser.service > /dev/null 2>&1
+sudo bash -c 'cat > /etc/systemd/system/audio.service' << 'EOL'
+[Unit]
+Description=browser service
+After=network.target
+
+[Service]
+ExecStart=/bin/bash -c "export DISPLAY=:0.0 ; sudo startx /usr/bin/chromium-browser weburl -no-sandbox --window-size=9000,9000 --start-fullscreen --kiosk --incognito --noerrdialogs --no-first-run --fast --fast-start --disable-infobars --disk-cache-dir=/dev/null"
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOL
+
+sudo sed -i -e "s|weburl|$RD_OPTION_WEBSITE_ADDRESS|g" /etc/systemd/system/browser.service
+sudo systemctl daemon-reload
+sudo systemctl start browser.service
+sudo systemctl enable browser.service > /dev/null 2>&1
 }
 
 stop_service ; clear_framebuffer

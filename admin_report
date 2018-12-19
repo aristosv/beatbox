@@ -12,7 +12,7 @@ Host Name: echo $HOSTNAME
 -----------------------------------
 Date: $(date)
 -----------------------------------
-CPU Usage: $(top -b -n1 | grep 'Cpu(s)' | awk '{print $2 + $4}' | awk '{print int($1+0.5)}')%
+CPU Usage: $(top -b -n1 | grep Cpu | awk '{print $2 + $4}' | awk '{print int($1+0.5)}')%
 -----------------------------------
 Disk Usage: $(df --output=pcent / | sed '1d;s/^ //;s/%//')%
 -----------------------------------

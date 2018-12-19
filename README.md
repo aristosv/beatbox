@@ -10,6 +10,8 @@ Or adding a step and linking it to the script.
 For example this is how I set up a raspberry pi as a digital signage system. Step 7 basically configures the variables in the scripts that were created on the pi during the previous steps. Step 8 copies an image to be used as a logo on the framebuffer.
 ![alt text](https://github.com/aristosv/beatbox/blob/master/example3.png)
 
+When this pi powers up for the first time, it will expand / to utilize the whole microSD, connect to an ssh server to create a reverse tunnel, and show a logo on it's screen.
+
 The scripts can:
 - play local video or audio
 - stream or download from youtube

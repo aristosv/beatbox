@@ -12,6 +12,8 @@ For example this is how I set up a raspberry pi as a digital signage system. Ste
 
 When this pi powers up for the first time, it will expand / to utilize the whole microSD, connect to an ssh server to create a reverse tunnel, and show a logo on it's screen. It will then be a matter of running any of the signage_* scripts to enable any signage feature you need.
 
+If you need help shrinking your SD card, check [this out](https://github.com/aristosv/sdshrink)
+
 The scripts can:
 - play local video or audio
 - stream or download from youtube

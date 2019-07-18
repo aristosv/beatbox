@@ -1,42 +1,36 @@
 echo update
-sudo apt-get update > /dev/null 2>&1
+sudo apt update > /dev/null 2>&1
 
 echo upgrade
-sudo apt-get -y upgrade > /dev/null 2>&1
-
-echo dist upgrade
-sudo apt-get -y dist-upgrade > /dev/null 2>&1
+sudo apt -y upgrade > /dev/null 2>&1
 
 echo install xinit
-sudo apt-get install -y xinit > /dev/null 2>&1
+sudo apt install -y xinit > /dev/null 2>&1
 
 echo install fim
-sudo apt-get install -y fim > /dev/null 2>&1
+sudo apt install -y fim > /dev/null 2>&1
 
 echo install lftp
-sudo apt-get install -y lftp > /dev/null 2>&1
+sudo apt install -y lftp > /dev/null 2>&1
 
 echo install chromium
-sudo apt-get install -y chromium-browser > /dev/null 2>&1
+sudo apt install -y chromium-browser > /dev/null 2>&1
 
 echo install omxplayer
-sudo apt-get install -y omxplayer > /dev/null 2>&1
+sudo apt install -y omxplayer > /dev/null 2>&1
 
 echo install sshpass
-sudo apt-get install -y sshpass > /dev/null 2>&1
+sudo apt install -y sshpass > /dev/null 2>&1
 
 echo install xdotool
-sudo apt-get install -y xdotool > /dev/null 2>&1
+sudo apt install -y xdotool > /dev/null 2>&1
 
 echo install youtube-dl
 sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl > /dev/null 2>&1
 sudo chmod a+rx /usr/local/bin/youtube-dl
 
 echo install ssmtp
-sudo apt-get install -y ssmtp > /dev/null 2>&1
-
-echo clean
-sudo apt-get clean > /dev/null 2>&1
+sudo apt install -y ssmtp > /dev/null 2>&1
 
 echo set timezone
 sudo timedatectl set-timezone Asia/Nicosia
